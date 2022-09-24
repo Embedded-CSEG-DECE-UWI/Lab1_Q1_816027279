@@ -42,3 +42,6 @@ docs/doxygen_sqlite3.db
 
 # MacOS directory files
 .DS_Store
+
+# Build files
+build

@@ -12,10 +12,12 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
+static const uint32_t STUDENT_ID = 816027279;
+static const char* STUDENT_NAME = "Aidan Pinard";
 
 void app_main()
 {
-    printf("Hello world!\n");
+    printf("%s - %d\n", STUDENT_NAME, STUDENT_ID);
 
     /* Print chip information */
     esp_chip_info_t chip_info;
@@ -28,7 +30,10 @@ void app_main()
     printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
-    for (int i = 10; i >= 0; i--) {
+    // Get the last two digits for the number of seconds to restart
+    const int last_two_digits = ((STUDENT_ID) % 100) % 17; 
+
+    for (int i = last_two_digits; i >= 0; i--) {
         printf("Restarting in %d seconds...\n", i);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
