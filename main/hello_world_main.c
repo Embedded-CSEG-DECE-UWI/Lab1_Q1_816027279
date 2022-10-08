@@ -6,17 +6,15 @@
    software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
    CONDITIONS OF ANY KIND, either express or implied.
 */
-#include "esp_spi_flash.h"
-#include "esp_system.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include <stdio.h>
+#include "hello_world_main.h"
 
-static const uint32_t STUDENT_ID = 816027279;
-static const char *STUDENT_NAME = "Aidan Pinard";
-static const int last_two_digits = ((STUDENT_ID) % 100) % 17;
+static const uint32_t STUDENT_ID   = 816027279;
+static const char    *STUDENT_NAME = "Aidan Pinard";
+static const int      RESET_TIME   = ((STUDENT_ID) % 100) % 17;
 
-void app_main() {
+void
+app_main()
+{
     printf("%s - %d\n", STUDENT_NAME, STUDENT_ID);
 
     /* Print chip information */
@@ -27,13 +25,15 @@ void app_main() {
 
     printf("silicon revision %d, ", chip_info.revision);
 
-    printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
+    printf("%dMB %s flash\n",
+           spi_flash_get_chip_size() / (1024 * 1024),
            (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded"
-                                                       : "external");
-  
-    for (int i = last_two_digits; i >= 0; i--) {
-      printf("Restarting in %d seconds...\n", i);
-      vTaskDelay(1000 / portTICK_PERIOD_MS);
+                                                         : "external");
+
+    for (int i = RESET_TIME; i >= 0; i--)
+    {
+        printf("Restarting in %d seconds...\n", i);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 
     printf("Restarting now.\n");
