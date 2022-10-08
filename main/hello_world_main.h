@@ -14,6 +14,10 @@
 #include "freertos/task.h"
 #include <stdio.h>
 
+/**
+ * @brief Sends a message with the programmer's name and ID number, then resets
+ * after the last two digits of the ID number mod 17 seconds.
+ */
 void appmain();
 
 #endif
